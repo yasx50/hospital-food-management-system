@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const dietChartSchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
@@ -11,4 +11,4 @@ const dietChartSchema = new mongoose.Schema({
   ingredients: [String],
 });
 
-module.exports = mongoose.model('DietChart', dietChartSchema);
+export const Diet = mongoose.model('DietChart', dietChartSchema);

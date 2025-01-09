@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const deliverySchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
@@ -9,4 +9,4 @@ const deliverySchema = new mongoose.Schema({
   notes: { type: String },
 });
 
-module.exports = mongoose.model('Delivery', deliverySchema);
+export const Delivery = mongoose.model('Delivery', deliverySchema);

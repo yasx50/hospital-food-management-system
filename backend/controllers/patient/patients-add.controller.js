@@ -57,7 +57,26 @@ const registerPatient = async(req,res)=>{
             message:"patient register successfully"
         })
 }
+const getAllPatients = async (req, res) => {
+    try {
+        const patients = await Patient.find({});
+        if (!patients.length) {
+            return res.status(404).json({
+                status: 404,
+                message: "No patients found"
+            });
+        }
+        return res.status(200).json({
+            status: 200,
+            patients
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 500,
+            message: "Error retrieving patients",
+            error: error.message
+        });
+    }
+};
 
-export {
-    registerPatient
-}
+export { registerPatient, getAllPatients };

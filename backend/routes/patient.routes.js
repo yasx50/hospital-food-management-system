@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerPatient } from "../controllers/patient/patients-add.controller.js";
+import { registerPatient ,getAllPatients} from "../controllers/patient/patients-add.controller.js";
 import {addDiet} from "../controllers/patient/diet-add.controller.js"
 import { AddPantryStaff
         ,assignTaskToPantryStaff
@@ -8,7 +8,11 @@ import { AddPantryStaff
 import {addDelivery,updateDeliveryStatus} from "../controllers/patient/deleviry.controller.js";
 
 const router = Router()
+//ye route patients se related hai
 router.route("/register").post(registerPatient)
+router.route("/all-patients").get(getAllPatients)
+
+//add diet 
 router.route("/diet").post(addDiet)
 
 //yaha se inner-pantry k routes hai

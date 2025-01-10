@@ -1,62 +1,70 @@
 import express from 'express';
-import { Patient} from '../../models/patient.schema.js'
+import { Patient } from '../../models/patient.schema.js';
 
-const registerPatient = async(req,res)=>{
-    const {name,
-            age,
-            gender,
-            contactInfo,
-            emergencyContact,
-            roomNumber,
-            bedNumber,
-            floorNumber
-        } = req.body;
+const registerPatient = async (req, res) => {
+    const { 
+        name,
+        age,
+        gender,
+        contactInfo,
+        emergencyContact,
+        roomNumber,
+        bedNumber,
+        floorNumber,
+        diseases,
+        allergies 
+    } = req.body;
 
-        if (
-            [name, gender, contactInfo, emergencyContact, roomNumber, bedNumber].some((field) => field?.trim() === "") ||
-            age === undefined || age === null || age === "" || isNaN(age) ||
-            floorNumber === undefined || floorNumber === null || floorNumber === "" || isNaN(floorNumber)
-        ) {
-            return res.status(400).json({
-                status:400,
-                message:"provide all details of Patient"
-            })
-        }
+    // Validate required fields
+    if (
+        [name, gender, contactInfo, emergencyContact, roomNumber, bedNumber].some((field) => field?.trim() === "") ||
+        age === undefined || age === null || age === "" || isNaN(age) ||
+        floorNumber === undefined || floorNumber === null || floorNumber === "" || isNaN(floorNumber)
+    ) {
+        return res.status(400).json({
+            status: 400,
+            message: "Provide all required details of the patient"
+        });
+    }
 
-        const existedPatient =await Patient.findOne({
-           contactInfo
-        })
+    // Check if patient already exists based on contact info
+    const existedPatient = await Patient.findOne({ contactInfo });
+    if (existedPatient) {
+        return res.status(400).json({
+            status: 400,
+            message: "Patient already exists"
+        });
+    }
 
-        if(existedPatient) return res.status(400).json({
-            status:400,
-            message:"Patient already exists"
-        })
+    // Create new patient
+    const patient = await Patient.create({
+        name,
+        age,
+        gender,
+        contactInfo,
+        emergencyContact,
+        roomNumber,
+        bedNumber,
+        floorNumber,
+        diseases: diseases || [], // Default to empty array if not provided
+        allergies: allergies || [] // Default to empty array if not provided
+    });
 
-        const patient = await Patient.create({
-            name,
-            age,
-            gender,
-            contactInfo,
-            emergencyContact,
-            roomNumber,
-            bedNumber,
-            floorNumber
+    // Verify patient creation
+    const createdPatient = await Patient.findById(patient._id);
+    if (!createdPatient) {
+        return res.status(500).json({
+            message: "Something went wrong while registering the patient"
+        });
+    }
 
-        })
+    return res.status(200).json({
+        status: 200,
+        message: "Patient registered successfully",
+        patient: createdPatient
+    });
+};
 
-        const createdPatient = await Patient.findById(patient._id)
-
-        if(!createdPatient) {
-            return res.status(500).json({
-                message:"something went wrong while registernig the patient"
-            })
-        }
-
-        return res.status(200).json({
-            status:200,
-            message:"patient register successfully"
-        })
-}
 const getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find({});
@@ -79,4 +87,7 @@ const getAllPatients = async (req, res) => {
     }
 };
 
-export { registerPatient, getAllPatients };
+export {
+    registerPatient,
+    getAllPatients
+};

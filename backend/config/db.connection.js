@@ -1,20 +1,23 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import { DB_NAME } from '../constants.js';
 
-import {DB_NAME} from '../constants.js'
+dotenv.config();
 
-const connectDB = async ()=>{
+const connectDB = async () => {
     try {
-        const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-        console.log('database connected  ',connectionInstance.connection.host);
-        
+        const connectionString = `${process.env.LOCAL}/${DB_NAME}`;
+        console.log("Connecting to:", connectionString);
+
+        const connectionInstance = await mongoose.connect(connectionString, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log('Database connected:', connectionInstance.connection.host);
     } catch (error) {
-        console.log('error occured ',error);
-        process.exit(1)
-        
-        
+        console.error('Error occurred while connecting to database:', error.message);
+        process.exit(1);
     }
-}
-
-
+};
 
 export default connectDB;

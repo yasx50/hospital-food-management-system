@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import axios from "axios"; // Import axios for making API requests
 import '../index.css';
 
 const Dashboard = () => {
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
+  // States to store fetched data
+  const [patients, setPatients] = useState([]);
+  const [pantryStaff, setPantryStaff] = useState([]);
+
+  // Fetch patients and pantry staff on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetching patients data
+        const patientResponse = await axios.get(
+          "https://hospital-food-management-system.onrender.com/api/v1/all-patients"
+        );
+        setPatients(patientResponse.data.patients); // Set the fetched patients data
+
+        // Fetching pantry staff data
+        const pantryResponse = await axios.get(
+          "https://hospital-food-management-system.onrender.com/api/v1/pantry-staffs"
+        );
+        setPantryStaff(pantryResponse.data.staff); // Set the fetched pantry staff data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the fetchData function
+  }, []); // Empty dependency array ensures this runs once on component mount
+
   // Handle the button click to navigate to the Add Patient page
   const handleAddPatientClick = () => {
     navigate("/add-patient");
   };
-  
+
   const handleAddPantryClick = () => {
     navigate("/add-PantryStaff");
   };
@@ -45,6 +73,39 @@ const Dashboard = () => {
               Add Pantry Staff
             </button>
           </div>
+        </div>
+
+        {/* Displaying the Patients and Pantry Staff */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold mb-4">All Patients</h2>
+          <ul className="space-y-4">
+            {patients.map((patient) => (
+              <li key={patient._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+                <p><strong>Name:</strong> {patient.name}</p>
+                <p><strong>Age:</strong> {patient.age}</p>
+                <p><strong>Gender:</strong> {patient.gender}</p>
+                <p><strong>Contact:</strong> {patient.contactInfo}</p>
+                <p><strong>Emergency Contact:</strong> {patient.emergencyContact}</p>
+                <p><strong>Room Number:</strong> {patient.roomNumber}</p>
+                <p><strong>Bed Number:</strong> {patient.bedNumber}</p>
+                <p><strong>Floor Number:</strong> {patient.floorNumber}</p>
+                <p><strong>Diseases:</strong> {patient.diseases.length > 0 ? patient.diseases.join(", ") : "None"}</p>
+                <p><strong>Allergies:</strong> {patient.allergies.length > 0 ? patient.allergies.join(", ") : "None"}</p>
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4">All Pantry Staff</h2>
+          <ul className="space-y-4">
+            {pantryStaff.map((staff) => (
+              <li key={staff._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+                <p><strong>Name:</strong> {staff.name}</p>
+                <p><strong>Contact:</strong> {staff.contactInfo}</p>
+                <p><strong>Location:</strong> {staff.location}</p>
+                <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? staff.assignedTasks.map(task => task.taskType).join(", ") : "None"}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     </div>

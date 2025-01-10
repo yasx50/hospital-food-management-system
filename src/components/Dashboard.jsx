@@ -53,7 +53,7 @@ const Dashboard = () => {
       <main className="container mx-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Add Patient Card */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
             <h2 className="text-xl font-semibold mb-4">Add Patient</h2>
             <button
               onClick={handleAddPatientClick}
@@ -64,7 +64,7 @@ const Dashboard = () => {
           </div>
 
           {/* Add Pantry Staff Card */}
-          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
             <h2 className="text-xl font-semibold mb-4">Add Pantry Staff</h2>
             <button
               onClick={handleAddPantryClick}
@@ -77,35 +77,43 @@ const Dashboard = () => {
 
         {/* Displaying the Patients and Pantry Staff */}
         <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">All Patients</h2>
-          <ul className="space-y-4">
-            {patients.map((patient) => (
-              <li key={patient._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-                <p><strong>Name:</strong> {patient.name}</p>
-                <p><strong>Age:</strong> {patient.age}</p>
-                <p><strong>Gender:</strong> {patient.gender}</p>
-                <p><strong>Contact:</strong> {patient.contactInfo}</p>
-                <p><strong>Emergency Contact:</strong> {patient.emergencyContact}</p>
-                <p><strong>Room Number:</strong> {patient.roomNumber}</p>
-                <p><strong>Bed Number:</strong> {patient.bedNumber}</p>
-                <p><strong>Floor Number:</strong> {patient.floorNumber}</p>
-                <p><strong>Diseases:</strong> {patient.diseases.length > 0 ? patient.diseases.join(", ") : "None"}</p>
-                <p><strong>Allergies:</strong> {patient.allergies.length > 0 ? patient.allergies.join(", ") : "None"}</p>
-              </li>
-            ))}
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Patients List */}
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">All Patients</h2>
+              <ul className="space-y-4">
+                {patients.map((patient) => (
+                  <li key={patient._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
+                    <p><strong>Name:</strong> {patient.name}</p>
+                    <p><strong>Age:</strong> {patient.age}</p>
+                    <p><strong>Gender:</strong> {patient.gender}</p>
+                    <p><strong>Contact:</strong> {patient.contactInfo}</p>
+                    <p><strong>Emergency Contact:</strong> {patient.emergencyContact}</p>
+                    <p><strong>Room Number:</strong> {patient.roomNumber}</p>
+                    <p><strong>Bed Number:</strong> {patient.bedNumber}</p>
+                    <p><strong>Floor Number:</strong> {patient.floorNumber}</p>
+                    <p><strong>Diseases:</strong> {patient.diseases.length > 0 ? patient.diseases.join(", ") : "None"}</p>
+                    <p><strong>Allergies:</strong> {patient.allergies.length > 0 ? patient.allergies.join(", ") : "None"}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <h2 className="text-2xl font-semibold mt-8 mb-4">All Pantry Staff</h2>
-          <ul className="space-y-4">
-            {pantryStaff.map((staff) => (
-              <li key={staff._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
-                <p><strong>Name:</strong> {staff.name}</p>
-                <p><strong>Contact:</strong> {staff.contactInfo}</p>
-                <p><strong>Location:</strong> {staff.location}</p>
-                <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? staff.assignedTasks.map(task => task.taskType).join(", ") : "None"}</p>
-              </li>
-            ))}
-          </ul>
+            {/* Pantry Staff List */}
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">All Pantry Staff</h2>
+              <ul className="space-y-4">
+                {pantryStaff.map((staff) => (
+                  <li key={staff._id} className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
+                    <p><strong>Name:</strong> {staff.name}</p>
+                    <p><strong>Contact:</strong> {staff.contactInfo}</p>
+                    <p><strong>Location:</strong> {staff.location}</p>
+                    <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? staff.assignedTasks.map(task => task.taskType).join(", ") : "None"}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </main>
     </div>

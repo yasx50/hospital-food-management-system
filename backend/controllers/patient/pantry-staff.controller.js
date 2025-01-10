@@ -4,7 +4,7 @@ import { PantryStaff } from '../../models/pantry-staff.schema.js';
 const AddPantryStaff = async (req, res) => {
   try {
     // Destructure fields from req.body
-    const { name, contactInfo, location } = req.body;
+    const { name, contactInfo, location, taskType, taskDetails, dueBy } = req.body;
 
     // Validate input fields
     if (!name) {
@@ -19,17 +19,28 @@ const AddPantryStaff = async (req, res) => {
       return res.status(400).json({ error: 'Location is required' });
     }
 
+    if (!taskType || !taskDetails) {
+      return res.status(400).json({ error: 'Task type and task details are required' });
+    }
+
     // Check if a staff member with the same contact info already exists (optional, avoids duplicates)
     const existingStaff = await PantryStaff.findOne({ contactInfo });
     if (existingStaff) {
       return res.status(409).json({ error: 'A staff member with this contact information already exists' });
     }
 
-    // Create a new PantryStaff document
+    // Create a new PantryStaff document, including the task
     const newStaff = new PantryStaff({
       name,
       contactInfo,
       location,
+      assignedTasks: [
+        {
+          taskType,
+          taskDetails,
+          dueBy, // Optional: If present
+        },
+      ],
     });
 
     // Save the document to the database
@@ -37,7 +48,7 @@ const AddPantryStaff = async (req, res) => {
 
     // Respond with the saved document
     res.status(201).json({
-      message: 'Pantry staff added successfully',
+      message: 'Pantry staff added and task assigned successfully',
       staff: savedStaff,
     });
   } catch (error) {
@@ -46,53 +57,7 @@ const AddPantryStaff = async (req, res) => {
   }
 };
 
-const assignTaskToPantryStaff = async (req, res) => {
-  try {
-    const { staffId, taskType, taskDetails, dueBy } = req.body;
-
-    // Validate required fields
-    if (!staffId || !taskType || !taskDetails) {
-      return res.status(400).json({ error: 'Staff ID, Task Type, and Task Details are required' });
-    }
-
-    // Validate task type
-    const validTaskTypes = ['Food Preparation', 'Delivery'];
-    if (!validTaskTypes.includes(taskType)) {
-      return res.status(400).json({ error: `Invalid task type. Valid types are: ${validTaskTypes.join(', ')}` });
-    }
-
-    // Find the pantry staff and update their assigned tasks
-    const updatedStaff = await PantryStaff.findByIdAndUpdate(
-      staffId,
-      {
-        $push: {
-          assignedTasks: {
-            taskType,
-            taskDetails,
-            dueBy, // Optional
-          },
-        },
-      },
-      { new: true } // Return the updated document
-    );
-
-    if (!updatedStaff) {
-      return res.status(404).json({ error: 'Pantry staff not found' });
-    }
-
-    res.status(200).json({
-      message: 'Task assigned successfully',
-      staff: updatedStaff,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while assigning the task' });
-  }
-};
-
-
-//just for updating the status
-
+// Function to update task status
 const updateTaskStatus = async (req, res) => {
   try {
     const { staffId, taskId, status } = req.body;
@@ -133,7 +98,6 @@ const updateTaskStatus = async (req, res) => {
   }
 };
 
-//to get aal pantry staff
 // Function to get all pantry staff
 const getAllPantryStaff = async (req, res) => {
   try {
@@ -154,12 +118,8 @@ const getAllPantryStaff = async (req, res) => {
   }
 };
 
-
-
-
 export {
-    assignTaskToPantryStaff,
-    updateTaskStatus,
-    AddPantryStaff,
-    getAllPantryStaff
-}
+  AddPantryStaff,
+  updateTaskStatus,
+  getAllPantryStaff
+};

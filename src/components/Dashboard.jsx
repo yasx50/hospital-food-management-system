@@ -108,7 +108,15 @@ const Dashboard = () => {
                     <p><strong>Name:</strong> {staff.name}</p>
                     <p><strong>Contact:</strong> {staff.contactInfo}</p>
                     <p><strong>Location:</strong> {staff.location}</p>
-                    <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? staff.assignedTasks.map(task => task.taskType).join(", ") : "None"}</p>
+                    <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? 
+                      staff.assignedTasks.map(task => (
+                        <div key={task._id}>
+                          <p><strong>Task:</strong> {task.taskType}</p>
+                          <p><strong>Details:</strong> {task.taskDetails}</p>
+                          <p><strong>Status:</strong> {task.status}</p>
+                        </div>
+                      )) : "None"
+                    }</p>
                   </li>
                 ))}
               </ul>

@@ -11,24 +11,19 @@ const PantryStaffForm = () => {
   const [dueBy, setDueBy] = useState("");
   const [status, setStatus] = useState("Pending");
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Make sure the form data is structured properly
     const pantryStaffData = {
       name,
       contactInfo,
       location,
-      assignedTasks: [
-        {
-          taskType,
-          taskDetails,
-          dueBy,
-          status,
-        },
-      ],
+      taskType,  // Directly passing taskType here
+      taskDetails,
+      dueBy,
     };
-
+  
     try {
       const response = await axios.post(
         "https://hospital-food-management-system.onrender.com/api/v1/addpantrystaff",
@@ -38,8 +33,11 @@ const PantryStaffForm = () => {
       // You can also redirect to another page or show success message here
     } catch (error) {
       console.error("There was an error!", error);
+      // Optionally, show a specific error message to the user
+      alert("Error: " + (error.response ? error.response.data.error : "Unknown error"));
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 p-6">

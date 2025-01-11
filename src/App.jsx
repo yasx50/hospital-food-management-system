@@ -6,6 +6,7 @@ import PantryStaffForm from "./components/PantryStaffForm";
 import DeliveryPersonnelForm from "./components/DeliveryPersonnelForm";
 import DietForm from "./components/DietForm";
 import AuthForm from "./components/AuthForm";
+import NormalDashboard from "./components/NormalDashboard";
 
 
 
@@ -16,12 +17,13 @@ const App = () => {
       <Routes>
         
         
-        <Route path="/" element={<Dashboard/>} />
+        <Route path="/" element={<NormalDashboard/>} />
+        <Route path="/admin" element={<Dashboard/>} />
         <Route path="/add-patient" element={<PatientForm />} />
         <Route path="/add-PantryStaff" element={ <PantryStaffForm/>} />
         <Route path="/add-addDeleviry" element={ <DeliveryPersonnelForm/>} />
         <Route path="/add-diet" element={ <DietForm/>} />
-        <Route path="/admin" element={<AuthForm/>} />
+        <Route path="/get-admin" element={<AuthForm/>} />
         
       </Routes>
     </Router>

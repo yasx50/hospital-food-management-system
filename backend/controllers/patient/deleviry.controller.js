@@ -93,7 +93,25 @@ const updateDeliveryStatus = async (req, res) => {
   }
 };
 
+// Method to get all deliveries
+const getAllDeliveries = async (req, res) => {
+  try {
+    // Retrieve all deliveries from the database
+    const deliveries = await Delivery.find();
+
+    // Respond with the retrieved deliveries
+    res.status(200).json({
+      message: 'Deliveries retrieved successfully',
+      deliveries,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while retrieving the deliveries' });
+  }
+};
+
 export {
   updateDeliveryStatus,
-  addDelivery
+  addDelivery,
+  getAllDeliveries
 };

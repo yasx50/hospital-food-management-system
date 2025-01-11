@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import express from 'express';
 import { Diet } from '../../models/diet.schema.js'; // Assuming the path is correct
 
+// Method to add a new diet chart
 const addDiet = async (req, res) => {
   try {
     // Destructure necessary fields from req.body
@@ -47,6 +48,24 @@ const addDiet = async (req, res) => {
   }
 };
 
+// Method to get all diet charts
+const getAllDiets = async (req, res) => {
+  try {
+    // Retrieve all diets from the database
+    const diets = await Diet.find();
+
+    // Respond with the retrieved diets
+    res.status(200).json({
+      message: 'Diet charts retrieved successfully',
+      diets,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while retrieving the diet charts' });
+  }
+};
+
 export {
-  addDiet
+  addDiet,
+  getAllDiets
 };

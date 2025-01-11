@@ -5,6 +5,7 @@ import PatientForm from "./components/PatientForm";
 import PantryStaffForm from "./components/PantryStaffForm";
 import DeliveryPersonnelForm from "./components/DeliveryPersonnelForm";
 import DietForm from "./components/DietForm";
+import AuthForm from "./components/AuthForm";
 
 
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/add-PantryStaff" element={ <PantryStaffForm/>} />
         <Route path="/add-addDeleviry" element={ <DeliveryPersonnelForm/>} />
         <Route path="/add-diet" element={ <DietForm/>} />
+        <Route path="/admin" element={<AuthForm/>} />
         
       </Routes>
     </Router>

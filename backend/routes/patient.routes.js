@@ -6,6 +6,8 @@ import { AddPantryStaff
         getAllPantryStaff} from "../controllers/patient/pantry-staff.controller.js";
 import {addDelivery,updateDeliveryStatus} from "../controllers/patient/deleviry.controller.js";
 
+import {registerAdmin,loginAdmin} from "../controllers/patient/admin.controller.js"
+
 const router = Router()
 //ye route patients se related hai
 router.route("/register").post(registerPatient)
@@ -24,4 +26,7 @@ router.route("/pantry-staffs").get(getAllPantryStaff)
 router.route("/addDeleviry").post(addDelivery)
 router.route("/updateDeliveryStatus").post(updateDeliveryStatus)
 
+// yaha pr admin ka route
+router.route("/register-admin").post(registerAdmin)
+router.route("/login-admin").post(loginAdmin)
 export default router

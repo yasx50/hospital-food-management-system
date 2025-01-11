@@ -9,8 +9,9 @@ const Dashboard = () => {
   // States to store fetched data
   const [patients, setPatients] = useState([]);
   const [pantryStaff, setPantryStaff] = useState([]);
+  const [deliveryPersonnel, setDeliveryPersonnel] = useState([]); // Added state for Delivery Personnel
 
-  // Fetch patients and pantry staff on component mount
+  // Fetch patients, pantry staff, and delivery personnel on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,6 +26,12 @@ const Dashboard = () => {
           "https://hospital-food-management-system.onrender.com/api/v1/pantry-staffs"
         );
         setPantryStaff(pantryResponse.data.staff); // Set the fetched pantry staff data
+
+        // Fetching delivery personnel data
+        const deliveryResponse = await axios.get(
+          "https://hospital-food-management-system.onrender.com/api/v1/delivery-personnel"
+        );
+        setDeliveryPersonnel(deliveryResponse.data.personnel); // Set the fetched delivery personnel data
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -33,13 +40,20 @@ const Dashboard = () => {
     fetchData(); // Call the fetchData function
   }, []); // Empty dependency array ensures this runs once on component mount
 
-  // Handle the button click to navigate to the Add Patient page
+  // Handle the button click to navigate to different pages
   const handleAddPatientClick = () => {
     navigate("/add-patient");
   };
 
   const handleAddPantryClick = () => {
-    navigate("/add-PantryStaff");
+    navigate("/add-PantryStaff"); // Keep the original spelling of "PantryStaff"
+  };
+
+  const handleAddDElClick = () => {
+    navigate("/add-addDeleviry"); // Keep the original spelling of "Deleviry"
+  };
+  const handleAddDietClick = () => {
+    navigate("/add-diet"); // Keep the original spelling of "Deleviry"
   };
 
   return (
@@ -73,9 +87,31 @@ const Dashboard = () => {
               Add Pantry Staff
             </button>
           </div>
+
+          {/* Add Delivery Personnel Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
+            <h2 className="text-xl font-semibold mb-4">Add Delivery Personnel</h2>
+            <button
+              onClick={handleAddDElClick}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+            >
+              Add Delivery Personnel
+            </button>
+          </div>
+
+          {/* Add Delivery Personnel Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300">
+            <h2 className="text-xl font-semibold mb-4">Specify the Diet To Patients</h2>
+            <button
+              onClick={handleAddDietClick}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+            >
+              Add Diet
+            </button>
+          </div>
         </div>
 
-        {/* Displaying the Patients and Pantry Staff */}
+        {/* Displaying the Patients, Pantry Staff, and Delivery Personnel */}
         <div className="mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Patients List */}

@@ -1,29 +1,34 @@
+import mongoose from "mongoose";
 import express from 'express';
-import {Diet} from '../../models/diet.schema.js'
+import { Diet } from '../../models/diet.schema.js'; // Assuming the path is correct
 
 const addDiet = async (req, res) => {
   try {
     // Destructure necessary fields from req.body
-    const { patientId, meals, instructions, ingredients } = req.body;
+    const { patientId, meals: { morning, evening, night }, instructions, ingredients } = req.body;
 
     // Validate input fields
     if (!patientId) {
       return res.status(400).json({ error: 'Patient ID is required' });
     }
 
-    if (!meals || !meals.morning || !meals.evening || !meals.night) {
-      return res.status(400).json({ error: 'All meals (morning, evening, night) are required' });
+    if (!morning || !evening || !night) {
+      return res.status(400).json({ error: 'All meal times (morning, evening, night) are required' });
     }
 
     // Optional: Validate ingredients array if provided
     if (ingredients && !Array.isArray(ingredients)) {
-      return res.status(400).json({ error: 'Ingredients must be an array' });
+      return res.status(400).json({ error: 'Ingredients must be an array of strings' });
     }
 
-    // Create a new Diet document
+    // Create new Diet document with nested meals structure
     const newDiet = new Diet({
       patientId,
-      meals,
+      meals: {
+        morning,
+        evening,
+        night,
+      },
       instructions,
       ingredients,
     });
@@ -43,6 +48,5 @@ const addDiet = async (req, res) => {
 };
 
 export {
-    addDiet
-
-} ;
+  addDiet
+};

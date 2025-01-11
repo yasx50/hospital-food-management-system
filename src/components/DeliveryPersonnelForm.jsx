@@ -32,7 +32,7 @@ const DeliveryPersonnelForm = () => {
 
     try {
       const response = await axios.post(
-        'https://hospital-food-management-system.onrender.com/api/v1/addDeleviry', // Ensure this is the correct endpoint
+        `${import.meta.env.VITE_BACKEND_URL}/addDeleviry`, // Ensure this is the correct endpoint
         deliveryData
       );
       console.log(response.data);

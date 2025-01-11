@@ -3,6 +3,7 @@ import axios from "axios";
 
 const PatientForm = () => {
   const [formData, setFormData] = useState({
+    patientId: "", // Added patientId field
     name: "",
     age: "",
     gender: "",
@@ -25,10 +26,13 @@ const PatientForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Log formData for debugging
+    console.log("Form data submitted:", formData);
 
     try {
       const response = await axios.post(
-        "https://hospital-food-management-system.onrender.com/api/v1/register",
+        `${import.meta.env.VITE_BACKEND_URL}/register`, // Ensure the URL is correct
         formData
       );
       console.log("Patient registered:", response.data);
@@ -41,6 +45,23 @@ const PatientForm = () => {
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Register Patient</h2>
       <form onSubmit={handleSubmit}>
+        {/* Patient ID Field */}
+        <div className="mb-4">
+          <label htmlFor="patientId" className="block text-sm font-medium text-gray-800">
+            Patient ID
+          </label>
+          <input
+            type="text"
+            id="patientId"
+            name="patientId"
+            value={formData.patientId}
+            onChange={handleChange}
+            required
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+          />
+        </div>
+
+        {/* Name Field */}
         <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-800">
             Name
@@ -56,6 +77,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Age Field */}
         <div className="mb-4">
           <label htmlFor="age" className="block text-sm font-medium text-gray-800">
             Age
@@ -71,6 +93,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Gender Field */}
         <div className="mb-4">
           <label htmlFor="gender" className="block text-sm font-medium text-gray-800">
             Gender
@@ -90,6 +113,7 @@ const PatientForm = () => {
           </select>
         </div>
 
+        {/* Contact Info Field */}
         <div className="mb-4">
           <label htmlFor="contactInfo" className="block text-sm font-medium text-gray-800">
             Contact Info
@@ -105,6 +129,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Emergency Contact Field */}
         <div className="mb-4">
           <label htmlFor="emergencyContact" className="block text-sm font-medium text-gray-800">
             Emergency Contact
@@ -120,6 +145,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Room Number Field */}
         <div className="mb-4">
           <label htmlFor="roomNumber" className="block text-sm font-medium text-gray-800">
             Room Number
@@ -135,6 +161,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Bed Number Field */}
         <div className="mb-4">
           <label htmlFor="bedNumber" className="block text-sm font-medium text-gray-800">
             Bed Number
@@ -150,6 +177,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Floor Number Field */}
         <div className="mb-4">
           <label htmlFor="floorNumber" className="block text-sm font-medium text-gray-800">
             Floor Number
@@ -165,6 +193,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Diseases Field */}
         <div className="mb-4">
           <label htmlFor="diseases" className="block text-sm font-medium text-gray-800">
             Diseases
@@ -179,6 +208,7 @@ const PatientForm = () => {
           />
         </div>
 
+        {/* Allergies Field */}
         <div className="mb-4">
           <label htmlFor="allergies" className="block text-sm font-medium text-gray-800">
             Allergies

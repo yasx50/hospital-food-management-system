@@ -3,6 +3,7 @@ import { Patient } from '../../models/patient.schema.js';
 
 const registerPatient = async (req, res) => {
     const { 
+        patientId,  // Accepting patientId from the request body
         name,
         age,
         gender,
@@ -17,7 +18,7 @@ const registerPatient = async (req, res) => {
 
     // Validate required fields
     if (
-        [name, gender, contactInfo, emergencyContact, roomNumber, bedNumber].some((field) => field?.trim() === "") ||
+        [patientId,name, gender, contactInfo, emergencyContact, roomNumber, bedNumber].some((field) => field?.trim() === "") ||
         age === undefined || age === null || age === "" || isNaN(age) ||
         floorNumber === undefined || floorNumber === null || floorNumber === "" || isNaN(floorNumber)
     ) {
@@ -38,6 +39,7 @@ const registerPatient = async (req, res) => {
 
     // Create new patient
     const patient = await Patient.create({
+        patientId,  // Save patientId in the database
         name,
         age,
         gender,

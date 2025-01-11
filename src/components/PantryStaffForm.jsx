@@ -26,7 +26,7 @@ const PantryStaffForm = () => {
   
     try {
       const response = await axios.post(
-        "https://hospital-food-management-system.onrender.com/api/v1/addpantrystaff",
+        `${import.meta.env.VITE_BACKEND_URL}/addpantrystaff`,
         pantryStaffData
       );
       console.log(response.data); // Log the response from the server

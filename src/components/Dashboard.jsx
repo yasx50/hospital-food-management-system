@@ -10,33 +10,33 @@ const Dashboard = () => {
   const [pantryStaff, setPantryStaff] = useState([]);
   const [deliveryPersonnel, setDeliveryPersonnel] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetching patients data
-        const patientResponse = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/all-patients`
-        );
-        setPatients(patientResponse.data.patients);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetching patients data
+  //       const patientResponse = await axios.get(
+  //         `${import.meta.env.VITE_BACKEND_URL}/all-patients`
+  //       );
+  //       setPatients(patientResponse.data.patients);
 
-        // Fetching pantry staff data
-        const pantryResponse = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/pantry-staffs`
-        );
-        setPantryStaff(pantryResponse.data.staff);
+  //       // Fetching pantry staff data
+  //       const pantryResponse = await axios.get(
+  //         `${import.meta.env.VITE_BACKEND_URL}/pantry-staffs`
+  //       );
+  //       setPantryStaff(pantryResponse.data.staff);
 
-        // Fetching delivery personnel data
-        const deliveryResponse = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/delivery-personnel`
-        );
-        setDeliveryPersonnel(deliveryResponse.data.personnel);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       // Fetching delivery personnel data
+  //       const deliveryResponse = await axios.get(
+  //         `${import.meta.env.VITE_BACKEND_URL}/delivery-personnel`
+  //       );
+  //       setDeliveryPersonnel(deliveryResponse.data.personnel);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleAddPatientClick = () => {
     navigate("/add-patient");
@@ -58,7 +58,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <header className="bg-blue-600 p-4">
         <h1 className="text-3xl font-bold text-center text-white">
-          Hospital Management
+          Hospital Management (ADMIN DASHBOARD)
         </h1>
       </header>
 

@@ -18,7 +18,7 @@ const App = () => {
         
         
         <Route path="/" element={<NormalDashboard/>} />
-        <Route path="/admin" element={<Dashboard/>} />
+        <Route path="/admin/dashboard" element={<Dashboard/>} />
         <Route path="/add-patient" element={<PatientForm />} />
         <Route path="/add-PantryStaff" element={ <PantryStaffForm/>} />
         <Route path="/add-addDeleviry" element={ <DeliveryPersonnelForm/>} />

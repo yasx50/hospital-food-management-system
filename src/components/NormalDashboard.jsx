@@ -30,13 +30,13 @@ const StaffDashboard = () => {
         const dietResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/all-diet`
         );
-        setDiet(dietResponse.data.diet || []);
+        setDiet(dietResponse.data.diets || []);
 
         // Fetching delivery personnel data
         const deliveryResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/all-deleviry`
         );
-        setDelivery(deliveryResponse.data.delivery || []);
+        setDelivery(deliveryResponse.data.deliveries || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -135,9 +135,12 @@ const StaffDashboard = () => {
                     key={item._id}
                     className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300"
                   >
-                    <p><strong>Diet ID:</strong> {item.dietId}</p>
-                    <p><strong>Diet Type:</strong> {item.dietType}</p>
-                    <p><strong>Description:</strong> {item.description}</p>
+                    <p><strong>Diet ID:</strong> {item._id}</p>
+                    <p><strong>Morning Meal:</strong> {item.meals.morning}</p>
+                    <p><strong>Evening Meal:</strong> {item.meals.evening}</p>
+                    <p><strong>Night Meal:</strong> {item.meals.night}</p>
+                    <p><strong>Instructions:</strong> {item.instructions}</p>
+                    <p><strong>Ingredients:</strong> {item.ingredients.join(", ")}</p>
                   </li>
                 ))
               ) : (

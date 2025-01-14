@@ -21,8 +21,6 @@ const registerAdmin = async (req, res) => {
     });
 
     // Hash the password before saving to the database
-    const salt = await bcrypt.genSalt(10);
-    newAdmin.password = await bcrypt.hash(newAdmin.password, salt);
 
     // Save the admin to the database
     const savedAdmin = await newAdmin.save();

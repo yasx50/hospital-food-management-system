@@ -70,8 +70,8 @@ const loginAdmin = async (req, res) => {
       return res.status(404).json({ message: "Invalid email or password" });
     }
 
-    // Check if the password matches
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    // Use the matchPassword method to check if the password matches
+    const isPasswordValid = await admin.matchPassword(password); // Use the method from the schema
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
@@ -99,7 +99,6 @@ const loginAdmin = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Server error during login" });
   }
-};
 
 export {
   registerAdmin,

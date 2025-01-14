@@ -35,15 +35,19 @@ AdminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
   }
+  console.log("Original Password:", this.password); // Log the plain-text password
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  console.log("Hashed Password:", this.password); // Log the hashed password
   next();
 });
 
 // Method to compare passwords during login
 AdminSchema.methods.matchPassword = async function (enteredPassword) {
+  console.log("Entered Password:", enteredPassword);
+  console.log("Stored Hashed Password:", this.password);
   const isMatch = await bcrypt.compare(enteredPassword, this.password);
-  console.log(`Password match: ${isMatch}`); // Debugging log
+  console.log("Password Match Result:", isMatch);
   return isMatch;
 };
 

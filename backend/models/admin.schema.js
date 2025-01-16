@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 // Create a schema for Admin
 const AdminSchema = new mongoose.Schema({
@@ -42,11 +42,9 @@ AdminSchema.pre("save", async function (next) {
 
 // Method to compare passwords during login
 AdminSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  const isMatch = await bcrypt.compare(enteredPassword, this.password);
+  return isMatch;
 };
 
-
- const  admin = mongoose.model("Admin", AdminSchema);
- export {
-    admin
- }
+const admin = mongoose.model("Admin", AdminSchema);
+export { admin };

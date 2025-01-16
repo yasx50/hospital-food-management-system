@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const deliverySchema = new mongoose.Schema({
   patientName: { type: String, required: true }, // Patient's name instead of ID
-  dietChartId: { type: mongoose.Schema.Types.ObjectId, ref: 'DietChart', required: true },
+  dietChartId: { type: Number },
   deliveryPersonnel: {
     name: { type: String, required: true }, // Delivery personnel's name
     contactInfo: { type: String, required: true }, // Contact info for delivery personnel
@@ -10,7 +10,7 @@ const deliverySchema = new mongoose.Schema({
   },
   assignedDeliveries: [
     {
-      deliveryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Delivery', required: true },
+      deliveryId: { type: Number},
       assignedAt: { type: Date, default: Date.now }, // Tracks assignment time
     },
   ], // Array to track assigned deliveries

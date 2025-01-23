@@ -16,9 +16,7 @@ const addDelivery = async (req, res) => {
       return res.status(400).json({ error: 'Diet Chart ID is required' });
     }
 
-    if (!deliveryPersonnel || !deliveryPersonnel.name || !deliveryPersonnel.contactInfo) {
-      return res.status(400).json({ error: 'Delivery Personnel information is incomplete' });
-    }
+    
 
     // Optional: Validate the `status` field if provided
     const validStatuses = ['Pending', 'Delivered'];

@@ -10,33 +10,6 @@ const Dashboard = () => {
   const [pantryStaff, setPantryStaff] = useState([]);
   const [deliveryPersonnel, setDeliveryPersonnel] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetching patients data
-  //       const patientResponse = await axios.get(
-  //         `${import.meta.env.VITE_BACKEND_URL}/all-patients`
-  //       );
-  //       setPatients(patientResponse.data.patients);
-
-  //       // Fetching pantry staff data
-  //       const pantryResponse = await axios.get(
-  //         `${import.meta.env.VITE_BACKEND_URL}/pantry-staffs`
-  //       );
-  //       setPantryStaff(pantryResponse.data.staff);
-
-  //       // Fetching delivery personnel data
-  //       const deliveryResponse = await axios.get(
-  //         `${import.meta.env.VITE_BACKEND_URL}/delivery-personnel`
-  //       );
-  //       setDeliveryPersonnel(deliveryResponse.data.personnel);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const handleAddPatientClick = () => {
     navigate("/add-patient");

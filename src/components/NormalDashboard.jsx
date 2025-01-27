@@ -9,30 +9,26 @@ const StaffDashboard = () => {
   const [diet, setDiet] = useState([]);
   const [delivery, setDelivery] = useState([]);
 
-  const navigate = useNavigate(); // hook to navigate to different routes
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetching patients data
         const patientResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/all-patients`
         );
         setPatients(patientResponse.data.patients || []);
 
-        // Fetching pantry staff data
         const pantryResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/pantry-staffs`
         );
         setPantryStaff(pantryResponse.data.staff || []);
 
-        // Fetching diet data
         const dietResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/all-diet`
         );
         setDiet(dietResponse.data.diets || []);
 
-        // Fetching delivery personnel data
         const deliveryResponse = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/all-deleviry`
         );
@@ -46,34 +42,39 @@ const StaffDashboard = () => {
   }, []);
 
   const handleRedirect = () => {
-    navigate("/get-admin"); // redirects to /get-admin page
+    navigate("/get-admin");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <header className="bg-blue-600 p-4">
-        <h1 className="text-3xl font-bold text-center text-white">Staff Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-gray-100 font-sans">
+      <header className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 shadow-md">
+        <h1 className="text-4xl font-extrabold text-center text-white">Hospital Food Management System</h1>
+        <p className="text-center mt-2 text-lg font-light">
+          "Where Nutrition Meets Care"
+        </p>
       </header>
 
-      <main className="container mx-auto p-6">
+      <main className="container mx-auto p-8">
         <button
           onClick={handleRedirect}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg mb-6"
+          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg shadow-lg mb-8 transition-all duration-300 ease-in-out transform hover:scale-105"
         >
           Go to Admin Dashboard
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-2xl font-semibold mb-4">All Patients</h2>
-            <ul className="space-y-4">
+            <h2 className="text-3xl font-bold mb-4 border-b-2 border-purple-500 pb-2">
+              All Patients
+            </h2>
+            <ul className="space-y-6">
               {patients && patients.length > 0 ? (
                 patients.map((patient) => (
                   <li
                     key={patient._id}
-                    className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-800 p-6 rounded-xl shadow-md border border-gray-700 transition-all duration-300 transform hover:scale-105"
                   >
-                    <p><strong>Patient ID:</strong> {patient.patientId}</p>
+                    <p className="font-medium"><strong>Patient ID:</strong> {patient.patientId}</p>
                     <p><strong>Name:</strong> {patient.name}</p>
                     <p><strong>Age:</strong> {patient.age}</p>
                     <p><strong>Gender:</strong> {patient.gender}</p>
@@ -87,53 +88,56 @@ const StaffDashboard = () => {
                   </li>
                 ))
               ) : (
-                <p>No patients available</p>
+                <p className="text-gray-400">No patients available</p>
               )}
             </ul>
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-4">All Pantry Staff</h2>
-            <ul className="space-y-4">
+            <h2 className="text-3xl font-bold mb-4 border-b-2 border-purple-500 pb-2">
+              Pantry Staff
+            </h2>
+            <ul className="space-y-6">
               {pantryStaff && pantryStaff.length > 0 ? (
                 pantryStaff.map((staff) => (
                   <li
                     key={staff._id}
-                    className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-800 p-6 rounded-xl shadow-md border border-gray-700 transition-all duration-300 transform hover:scale-105"
                   >
                     <p><strong>Name:</strong> {staff.name}</p>
                     <p><strong>Contact:</strong> {staff.contactInfo}</p>
                     <p><strong>Location:</strong> {staff.location}</p>
-                    <p>
-                      <strong>Assigned Tasks:</strong>{" "}
-                      {staff.assignedTasks.length > 0
-                        ? staff.assignedTasks.map((task) => (
-                            <div key={task._id}>
-                              <p><strong>Task:</strong> {task.taskType}</p>
-                              <p><strong>Details:</strong> {task.taskDetails}</p>
-                              <p><strong>Status:</strong> {task.status}</p>
-                            </div>
-                          ))
-                        : "None"}
-                    </p>
+                    <p><strong>Assigned Tasks:</strong> {staff.assignedTasks.length > 0 ? (
+                      <ul className="list-disc pl-6">
+                        {staff.assignedTasks.map((task) => (
+                          <li key={task._id} className="mt-2">
+                            <p><strong>Task:</strong> {task.taskType}</p>
+                            <p><strong>Details:</strong> {task.taskDetails}</p>
+                            <p><strong>Status:</strong> {task.status}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : "None"}</p>
                   </li>
                 ))
               ) : (
-                <p>No pantry staff available</p>
+                <p className="text-gray-400">No pantry staff available</p>
               )}
             </ul>
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-2xl font-semibold mb-4">All Diets</h2>
-            <ul className="space-y-4">
+            <h2 className="text-3xl font-bold mb-4 border-b-2 border-purple-500 pb-2">
+              Diet Plans
+            </h2>
+            <ul className="space-y-6">
               {diet && diet.length > 0 ? (
                 diet.map((item) => (
                   <li
                     key={item._id}
-                    className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-800 p-6 rounded-xl shadow-md border border-gray-700 transition-all duration-300 transform hover:scale-105"
                   >
                     <p><strong>Diet ID:</strong> {item._id}</p>
                     <p><strong>Morning Meal:</strong> {item.meals.morning}</p>
@@ -144,19 +148,21 @@ const StaffDashboard = () => {
                   </li>
                 ))
               ) : (
-                <p>No diet data available</p>
+                <p className="text-gray-400">No diet plans available</p>
               )}
             </ul>
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-4">All Delivery Personnel</h2>
-            <ul className="space-y-4">
+            <h2 className="text-3xl font-bold mb-4 border-b-2 border-purple-500 pb-2">
+              Delivery Personnel
+            </h2>
+            <ul className="space-y-6">
               {delivery && delivery.length > 0 ? (
                 delivery.map((personnel) => (
                   <li
                     key={personnel._id}
-                    className="bg-white p-4 rounded-lg shadow-lg border border-gray-200 transform hover:scale-105 transition-transform duration-300"
+                    className="bg-gray-800 p-6 rounded-xl shadow-md border border-gray-700 transition-all duration-300 transform hover:scale-105"
                   >
                     <p><strong>Name:</strong> {personnel.name}</p>
                     <p><strong>Contact:</strong> {personnel.contactInfo}</p>
@@ -164,7 +170,7 @@ const StaffDashboard = () => {
                   </li>
                 ))
               ) : (
-                <p>No delivery personnel available</p>
+                <p className="text-gray-400">No delivery personnel available</p>
               )}
             </ul>
           </div>
